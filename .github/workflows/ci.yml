@@ -60,5 +60,5 @@ jobs:
       - name: Run tests
         run: cabal test --test-show-details=direct
       - name: Run docspec
-        run: cabal-docspec dhall-recursive-adt
+        run: ./docspec.sh
       - run: cabal check
