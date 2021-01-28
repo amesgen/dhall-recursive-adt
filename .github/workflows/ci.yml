@@ -1,0 +1,64 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+jobs:
+  ormolu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: mrkkrp/ormolu-action@v1
+        with:
+          extra-args: -o-XTypeApplications
+  ci:
+    name: Run tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ghc:
+          - 8.6.5
+          - 8.8.4
+          - 8.10.3
+    steps:
+      - uses: actions/checkout@v2
+      - uses: haskell/actions/setup@v1
+        id: setup-haskell
+        with:
+          ghc-version: ${{ matrix.ghc }}
+          cabal-version: '3.2'
+      - name: Setup cabal-docspec
+        run: |
+          CABAL_DIR=~/.cabal/bin
+          echo "$CABAL_DIR" >> $GITHUB_PATH
+          DOCSPEC="$CABAL_DIR/cabal-docspec"
+          mkdir -p "$CABAL_DIR"
+          curl -sL https://github.com/phadej/cabal-extras/releases/download/cabal-docspec-$CABAL_DOCSPEC_VERSION/cabal-docspec-$CABAL_DOCSPEC_VERSION.xz | xz -d > "$DOCSPEC"
+          chmod +x "$DOCSPEC"
+          "$DOCSPEC" --version
+        env:
+          CABAL_DOCSPEC_VERSION: "0.0.0.20210111"
+
+      - name: Freeze build
+        run: cabal freeze
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.setup-haskell.outputs.cabal-store }}
+          key: cabal-${{ matrix.ghc }}-${{ hashFiles('cabal.project.freeze') }}
+          restore-keys: |
+            cabal-${{ matrix.ghc }}
+
+      - name: Build dependencies
+        run: cabal build --enable-tests --only-dependencies
+      - name: Build
+        run: cabal build
+      - name: Run tests
+        run: cabal test --test-show-details=direct
+      - name: Run docspec
+        run: cabal-docspec dhall-recursive-adt
+      - run: cabal check

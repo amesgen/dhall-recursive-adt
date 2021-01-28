@@ -1,0 +1,30 @@
+name: Publish
+on:
+  push:
+    tags:
+      - v[0-9]*
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: haskell/actions/setup@v1
+        with:
+          ghc-version: '8.10.3'
+          cabal-version: '3.2'
+
+      - run: cabal check
+      - run: cabal sdist
+      - run: cabal haddock --haddock-for-hackage --enable-documentation
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: |
+            dist-newstyle/sdist/*.tar.gz
+            dist-newstyle/*.tar.gz
+      - uses: haskell-actions/hackage-publish@v1.1
+        with:
+          hackageToken: ${{ secrets.HACKAGE_AUTH_TOKEN }}
+          packagesPath: dist-newstyle/sdist
+          docsPath: dist-newstyle
+          publish: false
