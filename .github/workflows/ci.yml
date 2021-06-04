@@ -33,7 +33,6 @@ jobs:
         with:
           ghc-version: ${{ matrix.ghc }}
           cabal-version: '3.4'
-      - run: cabal --version
       - name: Setup cabal-docspec
         run: |
           CABAL_DIR=~/.cabal/bin
