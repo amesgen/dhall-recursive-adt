@@ -1,1 +1,1 @@
-cabal-docspec --extra-package=neat-interpolation
+cabal-docspec --extra-package=yasi "$@"

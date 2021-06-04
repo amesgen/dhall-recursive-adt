@@ -1,3 +1,5 @@
 packages: .
 
 constraints: dhall -with-http
+
+extra-packages: yasi

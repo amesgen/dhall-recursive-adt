@@ -24,14 +24,15 @@ jobs:
         ghc:
           - 8.6.5
           - 8.8.4
-          - 8.10.3
+          - 8.10.4
+          - 9.0.1
     steps:
       - uses: actions/checkout@v2
       - uses: haskell/actions/setup@v1
         id: setup-haskell
         with:
           ghc-version: ${{ matrix.ghc }}
-          cabal-version: '3.2'
+          cabal-version: '3.4'
       - name: Setup cabal-docspec
         run: |
           CABAL_DIR=~/.cabal/bin
