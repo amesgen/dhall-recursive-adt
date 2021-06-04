@@ -39,7 +39,7 @@ library
     Dhall.Deriving.Recursive
   build-depends:
       base >= 4.12 && < 5
-    , dhall ^>= 1.38
+    , dhall >= 1.38 && < 1.40
     , data-fix ^>= 0.3
     , recursion-schemes ^>= 5.2
 
@@ -69,4 +69,4 @@ test-suite docspec
   hs-source-dirs: test
   build-depends:
       base
-    , neat-interpolation ^>= 0.5
+    , yasi >= 0.1

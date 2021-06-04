@@ -148,9 +148,9 @@ recInjectWith = contramap refix . D.injectWith @(Fix (Base a))
 -- In Dhall, we can construct an @Expr@ like this:
 --
 -- >>> import qualified Dhall as D
--- >>> import NeatInterpolation
+-- >>> import Yasi
 -- >>> :{
--- dhallExpr <- D.inputExpr [trimming|
+-- dhallExpr <- D.inputExpr [i|
 --   let ExprF = λ(a : Type) → < LitF : Natural | AddF : { _1 : a, _2 : a } | MulF : { _1 : a, _2 : a } >
 --   let Expr  = ∀(a : Type) → (ExprF a → a) → a
 --   --
