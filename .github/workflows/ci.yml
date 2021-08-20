@@ -44,6 +44,8 @@ jobs:
         env:
           CABAL_DOCSPEC_VERSION: "0.0.0.20210111"
 
+      - name: Configure
+        run: cabal configure --enable-tests
       - name: Freeze build
         run: cabal freeze
       - uses: actions/cache@v2
@@ -54,7 +56,7 @@ jobs:
             cabal-${{ matrix.ghc }}
 
       - name: Build dependencies
-        run: cabal build --enable-tests --only-dependencies
+        run: cabal build --only-dependencies
       - name: Build
         run: cabal build
       - name: Run tests
