@@ -1,1 +1,1 @@
-cabal-docspec --extra-package=yasi "$@"
+cabal-docspec "$@"
