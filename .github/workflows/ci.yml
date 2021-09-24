@@ -13,8 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: mrkkrp/ormolu-action@v4
-        with:
-          extra-args: -o-XTypeApplications
   ci:
     name: Run tests
     runs-on: ubuntu-latest
