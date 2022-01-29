@@ -22,8 +22,8 @@ jobs:
         ghc:
           - 8.6.5
           - 8.8.4
-          - 8.10.6
-          - 9.0.1
+          - 8.10.7
+          - 9.0.2
     steps:
       - uses: actions/checkout@v2
       - uses: haskell/actions/setup@v1
@@ -40,7 +40,7 @@ jobs:
           chmod +x "$DOCSPEC"
           "$DOCSPEC" --version
         env:
-          CABAL_DOCSPEC_VERSION: "0.0.0.20210111"
+          CABAL_DOCSPEC_VERSION: "0.0.0.20211114"
 
       - name: Configure
         run: cabal configure --enable-tests
