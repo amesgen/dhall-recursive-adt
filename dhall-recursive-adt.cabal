@@ -39,7 +39,7 @@ library
     Dhall.Deriving.Recursive
   build-depends:
       base >= 4.12 && < 5
-    , dhall >= 1.38 && < 1.41
+    , dhall >= 1.38 && < 1.42
     , data-fix ^>= 0.3
     , recursion-schemes ^>= 5.2
 
