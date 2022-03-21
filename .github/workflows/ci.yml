@@ -46,7 +46,7 @@ jobs:
         run: cabal configure --enable-tests
       - name: Freeze build
         run: cabal freeze
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ${{ steps.setup-haskell.outputs.cabal-store }}
           key: cabal-${{ matrix.ghc }}-${{ hashFiles('cabal.project.freeze') }}
