@@ -15,7 +15,7 @@ jobs:
       - run: cabal check
       - run: cabal sdist
       - run: cabal haddock --haddock-for-hackage --enable-documentation
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
           path: |
