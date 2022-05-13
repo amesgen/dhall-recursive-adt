@@ -37,7 +37,8 @@ main = do
     [ testCase "Haskell → Dhall" $
         JExpr dhallTree @=? JExpr do D.embed D.inject haskellTree,
       testCase "Dhall → Haskell" $
-        assertValidation haskellTree $ D.extract D.auto dhallTree,
+        assertValidation haskellTree $
+          D.extract D.auto dhallTree,
       testProperty "Dhall function = Haskell function" $ property do
         t <- forAll genTree
         dhallLeafList t === haskellLeafList t,
