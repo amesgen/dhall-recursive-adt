@@ -40,26 +40,26 @@ import qualified Dhall as D
 -- This wouldn't be a disaster, but it is a bit less convenient.
 newtype RecADT a = RecADT {unRecADT :: a}
 
-instance RecFromDhall a => D.FromDhall (RecADT a) where
+instance (RecFromDhall a) => D.FromDhall (RecADT a) where
   autoWith = fmap RecADT . recAutoWith
 
-instance RecToDhall a => D.ToDhall (RecADT a) where
+instance (RecToDhall a) => D.ToDhall (RecADT a) where
   injectWith = contramap unRecADT . recInjectWith
 
 type RecFromDhall a = (D.FromDhall (Base a (D.Result (Base a))), Corecursive a)
 
-recAuto :: RecFromDhall a => D.Decoder a
+recAuto :: (RecFromDhall a) => D.Decoder a
 recAuto = recAutoWith D.defaultInputNormalizer
 
-recAutoWith :: forall a. RecFromDhall a => D.InputNormalizer -> D.Decoder a
+recAutoWith :: forall a. (RecFromDhall a) => D.InputNormalizer -> D.Decoder a
 recAutoWith = fmap refix . D.autoWith @(Fix (Base a))
 
 type RecToDhall a = (D.ToDhall (Base a (D.Result (Base a))), Recursive a)
 
-recInject :: RecToDhall a => D.Encoder a
+recInject :: (RecToDhall a) => D.Encoder a
 recInject = recInjectWith D.defaultInputNormalizer
 
-recInjectWith :: forall a. RecToDhall a => D.InputNormalizer -> D.Encoder a
+recInjectWith :: forall a. (RecToDhall a) => D.InputNormalizer -> D.Encoder a
 recInjectWith = contramap refix . D.injectWith @(Fix (Base a))
 
 -- $setup
