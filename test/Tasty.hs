@@ -62,7 +62,7 @@ main = do
       LeafF a -> [a]
       BranchF t t' -> t <> t'
 
-    genTree :: MonadGen m => m (Tree Natural)
+    genTree :: (MonadGen m) => m (Tree Natural)
     genTree =
       Gen.recursive
         Gen.choice
@@ -72,7 +72,7 @@ main = do
 newtype JExpr s a = JExpr (D.Expr s a)
   deriving newtype (Show)
 
-instance Eq a => Eq (JExpr s a) where
+instance (Eq a) => Eq (JExpr s a) where
   (==) = coerce (D.judgmentallyEqual @a @s @s)
 
 assertValidation :: (HasCallStack, Show e, Show a, Eq a) => a -> Validation e a -> Assertion
