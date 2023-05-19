@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: mrkkrp/ormolu-action@v11
+      - uses: haskell-actions/run-ormolu@v12
   ci:
     name: Run tests
     runs-on: ubuntu-latest
@@ -24,6 +24,8 @@ jobs:
           - 8.8.4
           - 8.10.7
           - 9.0.2
+          - 9.2.7
+          - 9.4.5
     steps:
       - uses: actions/checkout@v3
       - uses: haskell/actions/setup@v2
@@ -36,11 +38,11 @@ jobs:
           echo "$CABAL_DIR" >> $GITHUB_PATH
           DOCSPEC="$CABAL_DIR/cabal-docspec"
           mkdir -p "$CABAL_DIR"
-          curl -sL https://github.com/phadej/cabal-extras/releases/download/cabal-docspec-$CABAL_DOCSPEC_VERSION/cabal-docspec-$CABAL_DOCSPEC_VERSION.xz | xz -d > "$DOCSPEC"
+          curl -sL https://github.com/phadej/cabal-extras/releases/download/cabal-docspec-$CABAL_DOCSPEC_VERSION/cabal-docspec-$CABAL_DOCSPEC_VERSION-x86_64-linux.xz | xz -d > "$DOCSPEC"
           chmod +x "$DOCSPEC"
           "$DOCSPEC" --version
         env:
-          CABAL_DOCSPEC_VERSION: "0.0.0.20211114"
+          CABAL_DOCSPEC_VERSION: "0.0.0.20230517"
 
       - name: Configure
         run: cabal configure --enable-tests
