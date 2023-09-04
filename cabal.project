@@ -1,3 +1,7 @@
 packages: .
 
 constraints: dhall -with-http
+
+-- TODO remove?
+if impl(ghc ==8.6.*)
+  constraints: aeson >=1.5
